@@ -3,13 +3,11 @@ const Quiz = require('../models/quiz');
 exports.getQuiz = async (req, res, next) => {
     try{
         const allQuiz = await Quiz.find();
-        // console.log(allQuiz[0].lvl_3.price);
         if(!allQuiz){
             const err = new Error('Here is error!');
             throw err;
         }
         res.status(200).json(allQuiz);
-
     }catch(err){
         console.log(err.message);
         res.status(500).json({
@@ -18,23 +16,23 @@ exports.getQuiz = async (req, res, next) => {
     }
 }
 
-exports.getQuizById = async (req, res, next) => {
-    try{
-        const quizId = req.params.quizId;
-        const quiz = await Quiz.findById(quizId);
-        console.log(quiz);
-        if(!quiz){
-            const err = new Error('not found');
-            throw err;
-        }
-        res.status(200).json(quiz);
-    }catch(err){
-        console.log(err.message);
-        res.status(500).json({
-            message: err.message
-        });
-    }
-}
+// exports.getQuizById = async (req, res, next) => {
+//     try{
+//         const quizId = req.params.quizId;
+//         const quiz = await Quiz.findById(quizId);
+//         console.log(quiz);
+//         if(!quiz){
+//             const err = new Error('not found');
+//             throw err;
+//         }
+//         res.status(200).json(quiz);
+//     }catch(err){
+//         console.log(err.message);
+//         res.status(500).json({
+//             message: err.message
+//         });
+//     }
+// }
 
 exports.createQuiz = async (req, res, next) => {
     try {
