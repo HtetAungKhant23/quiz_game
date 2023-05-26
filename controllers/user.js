@@ -39,18 +39,33 @@ exports.nextRound = async (req, res, next) => {
 
 exports.getQuiz = async (req, res, next) => {
     try{
-        const round = Number(req.params.round);
-        const quiz = await Quiz.find();
-
-        res.status(200).json(quiz);
-
-        if(round === 1){
-            const question = quiz[0].lvl_1.que_list;
+        let round = req.body.round;
+        if(!round){
+            round = 1
+        }else{
+            round = Number(req.body.round);
         }
 
+        const quiz = await Quiz.find();
+        if(!quiz){
+            const err = new Error('not found quiz');
+            throw err;
+        }
 
+        let question;
+        if(round === 1){
+            question = quiz[0].lvl_1.que_list;
+        }else if(round === 2){
+            question = quiz[0].lvl_2.que_list;
+        }else if(round === 3){
+            question = quiz[0].lvl_3.que_list;
+        }else{
+            res.status(404).json({
+                message: 'error found'
+            })
+        }
 
-
+        res.status(200).json(question);
 
     }catch(err){
         console.log(err.message);
@@ -59,11 +74,9 @@ exports.getQuiz = async (req, res, next) => {
         })
     }
 
-
-
 }
 
-exports.postUser = async (req, res, next) => {
+exports.createUser = async (req, res, next) => {
     try{
         const name = req.body.name;
         const userr = new User({
