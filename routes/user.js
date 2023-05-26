@@ -3,6 +3,11 @@ const controller = require('../controllers/user');
 const router = express.Router();
 
 router.post('/post', controller.postUser);
-router.put('/:id', controller.updateUser);
+
+router.patch('/:id', controller.updateUser);
+
+router.post('/next/:id', controller.nextRound);
+
+router.get('/getquiz/:round', controller.getQuiz);
 
 module.exports = router;
