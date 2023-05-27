@@ -24,37 +24,3 @@ mongoose.connect(
     console.log('there is mongo error!');
     console.log(err);
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// mongoose.connect(
-//         'mongodb+srv://root:root@cluster0.ksor6cg.mongodb.net/Quiz?retryWrites=true&w=majority',
-//         {
-//             useNewUrlParser: true,
-//             useUnifiedTopology: true
-//         }
-//     )
-//     .then(result => {
-//         console.log('connected DB!');
-//         app.listen(5000);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// console.log(process.env.MONGO_URL)
-

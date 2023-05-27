@@ -5,11 +5,17 @@ const userSchema = new Schema({
     name: {
         type: String
     },
-    // Quiz db nae ref lout chin ll ya ml
-    // quiz: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Quiz'
-    // },        
+
+/*
+=> Quiz db nae ref lout chin ll ya ml
+
+    quiz: {
+        type: Schema.Types.ObjectId,
+        ref: 'Quiz'
+    }, 
+
+*/
+    
     complete_quiz: {
         type: Number,
         default: 0
