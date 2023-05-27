@@ -129,25 +129,37 @@ const Quiz = require('../models/quiz');
 
 exports.getQuiz = async (req, res, next) => {
     try {
-        const lvl = req.query.lvl;
-        console.log(lvl, typeof lvl);
-        const quiz = await Quiz.find({ lvl: lvl });
-        if (!quiz) {
-            const err = new Error('not found quiz with this lvl');
-            throw err;
-        }
-        const randQue = (ques) => {
-            const randIdx = Math.floor(Math.random() * ques.length);
-            const que = ques[randIdx];
-            return que;
-        }
-        let result=[];
-        for (let i=0; i<3; i++){
-            result.push(randQue(quiz));
+        const level = req.query.level;
+
+        // const quiz = await Quiz.find({ lvl: lvl });
+        // if (!quiz) {
+        //     const err = new Error('not found quiz with this lvl');
+        //     throw err;
+        // }
+        let size;
+        if (level === 'easy'){
+            size = 4;
+        } else if (level === 'medium'){
+            size = 3;
+        } else if (level === 'hard'){
+            size = 1;
         }
 
-        console.log(result);
-        res.status(200).json(result);
+        const data = await Quiz.aggregate([{ $match: { level: level }},{$sample: { size: size } }]);
+        res.status(200).json(data);
+
+        // const randQue = (ques) => {
+        //     const randIdx = Math.floor(Math.random() * ques.length);
+        //     const que = ques[randIdx];
+        //     return que;
+        // }
+        // let result=[];
+        // for (let i=0; i<3; i++){
+        //     result.push(randQue(quiz));
+        // }
+
+        // console.log(result);
+        // res.status(200).json(result);
 
     } catch(err) {
         console.log(err.message);
@@ -177,7 +189,7 @@ exports.createUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
     try {
         const userId = req.params.id;
-        const count = Number(req.body.count);
+        const complete_quiz = Number(req.body.complete_quiz);
         const point = Number(req.body.point);
         const user = await User.findById(userId);
         if(!user){
@@ -185,22 +197,15 @@ exports.updateUser = async (req, res, next) => {
             throw err;
         }
 
-        let totalPrice = user.totalPrice;
-        switch(point){
-            case 4:
-                totalPrice += 1000;
-                break;
-            case 7:
-                totalPrice += 2000;
-                break;
-            case 8:
-                totalPrice += 3000;
-                break;
-        }
-
-        user.count = count;
+        user.complete_quiz = complete_quiz;
         user.point = point;
-        user.totalPrice = totalPrice;
+        if(point > 7){
+            user.totalPrice = 6000;
+        }else if(point > 6){
+            user.totalPrice = 3000;
+        }else if(point > 3){
+            user.totalPrice = 1000;
+        }
 
         const updUser = await user.save();
         if(!updUser){

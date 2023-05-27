@@ -7,7 +7,7 @@ const quizSchema = new Schema({
         type: String,
         required: true
     },
-    choice: [{
+    choice_answer: [{
         type: String,
         required: true
     }],
@@ -15,7 +15,7 @@ const quizSchema = new Schema({
         type: String,
         required: true
     },
-    lvl: {
+    level: {
         type: String,
         required: true
     }

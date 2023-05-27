@@ -46,7 +46,7 @@ exports.createQuiz = async (req, res, next) => {
 
         const quiz = new Quiz({
             question: que,
-            choice: [choice1,choice2,choice3,choice4],
+            choice_answer: [choice1,choice2,choice3,choice4],
             answer: ans,
             lvl: level
         });

@@ -10,7 +10,7 @@ const userSchema = new Schema({
     //     type: Schema.Types.ObjectId,
     //     ref: 'Quiz'
     // },        
-    count: {
+    complete_quiz: {
         type: Number,
         default: 0
     },
