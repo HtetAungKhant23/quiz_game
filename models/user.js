@@ -5,17 +5,19 @@ const userSchema = new Schema({
     name: {
         type: String
     },
-
-    complete_quiz: {
-        // OneQuiz db nae ref lout chin ll ya ml
-        count: {
-            type: Number,
-            default: 0
-        },
-        point: {
-            type: Number,
-            default: 0
-        }
+    // Quiz db nae ref lout chin ll ya ml
+    // quiz: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Quiz'
+    // },        
+    count: {
+        type: Number,
+        default: 0
+    },
+    
+    point: {
+        type: Number,
+        default: 0
     },
 
     totalPrice: {

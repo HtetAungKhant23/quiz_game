@@ -2,54 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
-    lvl_1: {
-        que_list: [{
-            quiz: {
-                type: String,
-                required: true
-            },
-            ans: [{
-                type: String
-            }]
-        }],
-        price: {
-            type: Number,
-            default: 1000
-        }
-    },
 
-    lvl_2: {
-        que_list: [{
-            quiz: {
-                type: String,
-                required: true
-            },
-            ans: [{
-                type: String
-            }]
-        }]
-        ,
-        price: {
-            type: Number,
-            default: 2000
-        }
+    question: {
+        type: String,
+        required: true
     },
-
-    lvl_3: {
-        que_list: [{
-            quiz: {
-                type: String,
-                required: true
-            },
-            ans: [{
-                type: String
-            }]
-        }]
-        ,
-        price: {
-            type: Number,
-            default: 3000
-        }
+    choice: [{
+        type: String,
+        required: true
+    }],
+    answer: {
+        type: String,
+        required: true
+    },
+    lvl: {
+        type: String,
+        required: true
     }
+
 });
+
 module.exports = mongoose.model('Quiz', quizSchema);

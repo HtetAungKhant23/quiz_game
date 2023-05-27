@@ -21,7 +21,7 @@ exports.getQuiz = async (req, res, next) => {
 //         const quizId = req.params.quizId;
 //         const quiz = await Quiz.findById(quizId);
 //         console.log(quiz);
-//         if(!quiz){
+//         if(!quiz){][[]]
 //             const err = new Error('not found');
 //             throw err;
 //         }
@@ -38,58 +38,27 @@ exports.createQuiz = async (req, res, next) => {
     try {
         const que = req.body.que;
         const ans = req.body.ans;
-        console.log(que, typeof(que));
-        console.log(ans, typeof(ans));
+        const choice1 = req.body.choice1;
+        const choice2 = req.body.choice2;
+        const choice3 = req.body.choice3;
+        const choice4 = req.body.choice4;
+        const level = req.body.level;
 
         const quiz = new Quiz({
-            lvl_1: {
-                que_list: [
-                    {
-                        quiz: 'this is lvl1 question',
-                        ans: [ans, ans, ans, ans]
-                    },
-                    {
-                        quiz: 'this is lvl1 question',
-                        ans: [ans, ans, ans, ans]
-                    }
-                ]
-            },
-
-            lvl_2: {
-                que_list: [
-                    {
-                        quiz: 'this is lvl2 question',
-                        ans: [ans, ans, ans, ans]
-                    },
-                    {
-                        quiz: 'this is lvl2 question',
-                        ans: [ans, ans, ans, ans]
-                    }
-                ]
-            },
-
-            lvl_3: {
-                que_list: [
-                    {
-                        quiz: 'this is lvl3 question',
-                        ans: [ans, ans, ans, ans]
-                    },
-                    {
-                        quiz: 'this is lvl3 question',
-                        ans: [ans, ans, ans, ans]
-                    }
-                ]
-            }
-
+            question: que,
+            choice: [choice1,choice2,choice3,choice4],
+            answer: ans,
+            lvl: level
         });
-        const qui = await quiz.save();
-        if (!qui) {
-            const err = new Error('here is error occure!');
-            err.statusCode = 401;
+
+        const question = await quiz.save();
+        if(!question){
+            const err = new Error('error found in creating question!');
             throw err;
         }
-        console.log('Created!');
-        res.status(200).json(qui);
+
+        res.status(201).json(question);
+        
     } catch (err) {
         console.log(err.message);
     }
