@@ -29,7 +29,10 @@ router.post('/create',
         .isEmpty()
         .withMessage('password is not strong!')
         .custom((value, {req}) => {
-
+            if(value === req.body.confirm_password){
+                return true;
+            }
+            return Promise.reject('password does not match!');
         })
 ]
 , controller.createUser);
