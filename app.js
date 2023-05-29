@@ -10,6 +10,14 @@ app.use(express.json());
 app.use('/quiz', quizRouter);
 app.use('/user', userRouter);
 
+app.use((error, req, res, next) => {
+    const message = error.message; 
+    const status = error.status;
+    res.status(status).json({
+        message: message
+    });
+})
+
 mongoose.connect(
     process.env.MONGO_URL,
     { useNewUrlParser: true, useUnifiedTopology: true }

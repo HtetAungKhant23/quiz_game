@@ -1,30 +1,16 @@
 const User = require('../models/user');
 const Quiz = require('../models/quiz');
-
-exports.getQuiz = async (req, res, next) => {
-    try {
-        const level = req.query.level;
-        let size;
-        if (level === 'easy'){
-            size = 4;
-        } else if (level === 'medium'){
-            size = 3;
-        } else if (level === 'hard'){
-            size = 1;
-        }
-        const data = await Quiz.aggregate([{ $match: { level: level }},{$sample: { size: size } }]);
-        res.status(200).json(data);
-    } catch(err) {
-        console.log(err.message);
-        res.status(200).json(err.message);
-    }
-}
+const { vaildation_Result } = require('express-validator');
 
 exports.createUser = async (req, res, next) => {
     try {
         const name = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
         const userr = new User({
-            name: name
+            name: name,
+            email: email,
+            password: password
         });
         const user = await userr.save();
         if (!user) {
@@ -36,6 +22,25 @@ exports.createUser = async (req, res, next) => {
         res.status(500).json({
             message: err.message
         })
+    }
+}
+
+exports.getQuiz = async (req, res, next) => {
+    try {
+        const level = req.query.level;
+        let size;
+        if (level === 'easy') {
+            size = 4;
+        } else if (level === 'medium') {
+            size = 3;
+        } else if (level === 'hard') {
+            size = 1;
+        }
+        const data = await Quiz.aggregate([{ $match: { level: level } }, { $sample: { size: size } }]);
+        res.status(200).json(data);
+    } catch (err) {
+        console.log(err.message);
+        res.status(200).json(err.message);
     }
 }
 
@@ -71,5 +76,3 @@ exports.updateUser = async (req, res, next) => {
         })
     }
 }
-
-
