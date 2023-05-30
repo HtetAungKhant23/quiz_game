@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const Quiz = require('../models/quiz');
-const { vaildation_Result } = require('express-validator');
 
 exports.createUser = async (req, res, next) => {
     try {
@@ -14,14 +13,13 @@ exports.createUser = async (req, res, next) => {
         });
         const user = await userr.save();
         if (!user) {
-            const err = new Error('user cant create!');
+            const err = new Error('user cannot create!');
+            throw err;
         }
         res.status(201).json(user);
     } catch (err) {
         console.log(err.message);
-        res.status(500).json({
-            message: err.message
-        })
+        res.status(500).json(err.message);
     }
 }
 

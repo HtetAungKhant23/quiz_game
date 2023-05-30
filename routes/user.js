@@ -5,39 +5,9 @@ const router = express.Router();
 const User = require('../models/user');
 
 // localhost:5000/user/create
-router.post('/create', 
-[
-    body('email')
-        .isEmail()
-        .withMessage('email format is not correct!')
-        .normalizeEmail()
-        .custom((value, {req}) => {
-            return User.findOne({email: value})
-                .then(user => {
-                    if(user){
-                        return Promise.reject('Email already exist!');
-                    }
-                })
-        }),
-    body('password')
-        .trim()
-        .isLength({min: 6})
-        .isUppercase()
-        .isLowercase()
-        .isAlphanumeric()
-        .not()
-        .isEmpty()
-        .withMessage('password is not strong!')
-        .custom((value, {req}) => {
-            if(value === req.body.confirm_password){
-                return true;
-            }
-            return Promise.reject('password does not match!');
-        })
-]
-, controller.createUser);
+router.post('/create', controller.createUser);
 
-// localhost:5000/user/getquiz
+// localhost:5000/user/getquiz/?level=medium
 router.get('/getquiz', controller.getQuiz);
 
 // localhost:5000/user/:id
